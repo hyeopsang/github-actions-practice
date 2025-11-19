@@ -1,11 +1,11 @@
-name: Github Actions로 테스트 자동화하기
+# .github/workflows/actions.yml
 
+name: Github Actions로 테스트 자동화하기
 on: push
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Github Repository 불러오기
         uses: actions/checkout@v5
@@ -13,16 +13,11 @@ jobs:
       - name: Node.js 설치하기
         uses: actions/setup-node@v6
         with:
-          node-version: '22'
-          cache: 'pnpm' # npm → pnpm 으로 변경
+          node-version: '24'
+          cache: 'npm'
 
-      - name: pnpm 설치하기
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9 # 너 프로젝트 버전에 맞춰 넣어도 됨
-
-      - name: 의존성 설치
-        run: pnpm install --frozen-lockfile
+      - name: 의존성(라이브러리) 설치
+        run: npm ci
 
       - name: 테스트 실행하기
-        run: pnpm test
+        run: npm run test
